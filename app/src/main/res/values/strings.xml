@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">PokeDexApp</string>
+    <string name="pokemon_logo">pokemon logo</string>
+    <string name="pokemon_image">pokemon image</string>
+    <string name="height_image">height image</string>
+    <string name="weight_image">weight image</string>
+</resources>
