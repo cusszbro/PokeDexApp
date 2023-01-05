@@ -155,7 +155,7 @@
                 android:layout_height="84dp"
                 android:layout_marginBottom="16dp"
                 android:background="@drawable/pokeball_toggle"
-                android:focusable="true"
+                android:focusable="false"
                 android:textOff=""
                 android:textOn=""
                 app:layout_constraintStart_toStartOf="parent"

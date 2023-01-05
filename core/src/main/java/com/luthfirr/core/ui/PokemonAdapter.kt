@@ -27,9 +27,16 @@ class PokemonAdapter : RecyclerView.Adapter<PokemonAdapter.PokemonViewHolder>() 
             binding.root.setOnClickListener {
                 onItemClickCallback?.onItemClicked(pokemon)
             }
+            val pokeImage = pokemon.url
+            val number = if (pokeImage.endsWith("/")) {
+                pokeImage.dropLast(1).takeLastWhile { it.isDigit() }
+            } else {
+                pokeImage.takeLastWhile { it.isDigit() }
+            }
+            val url = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${number}.png"
             binding.apply {
                 Glide.with(itemView)
-                    .load(pokemon.url)
+                    .load(url)
                     .into(ivPokemon)
                 tvPokemonName.text = pokemon.name
             }

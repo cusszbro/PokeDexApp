@@ -1,7 +1,10 @@
 package com.luthfirr.pokedexapp.detail
 
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.WindowInsets
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.viewModels
 import com.bumptech.glide.Glide
@@ -21,6 +24,8 @@ class PokemonDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityPokemonDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        setupView()
 
         val name = intent.getStringExtra(EXTRA_NAME)
         name?.let { viewModel.setPokemonDetail(it) }
@@ -48,11 +53,11 @@ class PokemonDetailActivity : AppCompatActivity() {
                             if (count != null) {
                                 if (count > 0) {
                                     binding.togglePokeball.isChecked = true
-                                    _isChecked = true
+//                                    _isChecked = true
                                 }
                                 else {
                                     binding.togglePokeball.isChecked = false
-                                    _isChecked = false
+//                                    _isChecked = false
                                 }
                             }
                         }
@@ -63,19 +68,29 @@ class PokemonDetailActivity : AppCompatActivity() {
                      */
                     binding.togglePokeball.setOnClickListener {
 //                        _isChecked = !_isChecked
-                        val randomCatch = (1..2).random()
-                        if (randomCatch == 2) {
-                            pokeName?.let { it1 -> viewModel.addToMyList(id, it1, url) }
-                            binding.togglePokeball.isChecked = !_isChecked
-                            Toast.makeText(
-                                this@PokemonDetailActivity,
-                                "congratulations, you caught it",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                        if (binding.togglePokeball.isChecked == false) {
+                            val randomCatch = (1..2).random()
+                            if (randomCatch == 1) {
+                                pokeName?.let { it1 -> viewModel.addToMyList(id, it1, url) }
+                                Toast.makeText(
+                                    this@PokemonDetailActivity,
+                                    "congratulations, you caught it",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                binding.togglePokeball.isChecked = true
+                            } else {
+                                Toast.makeText(
+                                    this@PokemonDetailActivity,
+                                    "Sorry, fail catch the pokemon",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                binding.togglePokeball.isChecked = false
+                            }
+                            binding.togglePokeball.isChecked = false
                         } else {
                             Toast.makeText(
                                 this@PokemonDetailActivity,
-                                "Sorry, fail catch the pokemon",
+                                "You have caught the pokemon",
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
@@ -83,6 +98,19 @@ class PokemonDetailActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun setupView() {
+        @Suppress("DEPRECATION")
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            window.insetsController?.hide(WindowInsets.Type.statusBars())
+        } else {
+            window.setFlags(
+                WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN
+            )
+        }
+        supportActionBar?.hide()
     }
 
     companion object {
